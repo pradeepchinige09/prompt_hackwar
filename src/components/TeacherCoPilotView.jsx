@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, FileText, CheckCircle2, AlertTriangle, Printer, Download, Sparkles, Plus, Users, BarChart3 } from 'lucide-react';
+import { FileText, AlertTriangle, Printer, Download, Sparkles, BarChart3 } from 'lucide-react';
 import { TEACHER_CLASSROOM_DATA, CURRICULUM_TOPICS } from '../data/curriculumData';
 
 export function TeacherCoPilotView({ currentLanguage }) {
@@ -285,6 +285,7 @@ Generated via ShikshaSetu AI Educator Co-Pilot • UN SDG 4 Quality Education
                 value={selectedTopic.id}
                 onChange={(e) => setSelectedTopic(CURRICULUM_TOPICS.find(t => t.id === e.target.value))}
                 style={{ flex: 1 }}
+                aria-label="Select Subject and Concept for Worksheet"
               >
                 {CURRICULUM_TOPICS.map(t => (
                   <option key={t.id} value={t.id}>{t.title.en} ({t.grade})</option>
@@ -295,7 +296,13 @@ Generated via ShikshaSetu AI Educator Co-Pilot • UN SDG 4 Quality Education
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
               <div>
                 <span className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Target Grade:</span>
-                <select className="select-custom" value={gradeLevel} onChange={(e) => setGradeLevel(e.target.value)} style={{ width: '100%' }}>
+                <select 
+                  className="select-custom" 
+                  value={gradeLevel} 
+                  onChange={(e) => setGradeLevel(e.target.value)} 
+                  style={{ width: '100%' }}
+                  aria-label="Target Grade Level"
+                >
                   <option value="Grade 6-7">Grade 6-7 (Foundational)</option>
                   <option value="Grade 8-9">Grade 8-9 (Middle)</option>
                   <option value="Grade 10">Grade 10 (Secondary / Board)</option>
@@ -303,7 +310,13 @@ Generated via ShikshaSetu AI Educator Co-Pilot • UN SDG 4 Quality Education
               </div>
               <div>
                 <span className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Medium / Language:</span>
-                <select className="select-custom" value={worksheetLang} onChange={(e) => setWorksheetLang(e.target.value)} style={{ width: '100%' }}>
+                <select 
+                  className="select-custom" 
+                  value={worksheetLang} 
+                  onChange={(e) => setWorksheetLang(e.target.value)} 
+                  style={{ width: '100%' }}
+                  aria-label="Worksheet Medium and Language"
+                >
                   <option value="en">English Medium</option>
                   <option value="hi">हिंदी माध्यम (Hindi)</option>
                   <option value="hinglish">Hinglish (Bilingual)</option>
@@ -411,6 +424,7 @@ Generated via ShikshaSetu AI Educator Co-Pilot • UN SDG 4 Quality Education
             }}
             placeholder="Enter student's response here..."
             id="student-diagnostic-input"
+            aria-label="Student answer text to diagnose for misconceptions"
           />
 
           <button 

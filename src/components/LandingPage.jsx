@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, ArrowRight, BookOpen, Compass, Eye, Users, Award, Globe, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ArrowRight, BookOpen, Compass, Eye, Users } from 'lucide-react';
 
 export function LandingPage({ onNavigate, currentLanguage }) {
   return (

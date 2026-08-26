@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight, Check, BookOpen, Clock, Globe, Award, CheckCircle2 } from 'lucide-react';
+import { Sparkles, BookOpen, Clock, Globe } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { LANGUAGES } from '../data/curriculumData';
 
@@ -60,32 +60,40 @@ export function CreateStudyPlan({ onPlanCreated, onNavigate, currentLanguage }) 
             <BookOpen size={18} color="var(--accent-indigo-light)" /> 1. Select Grade Level & Board
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem' }}>
-            {['Grade 6-8 (Foundational)', 'Grade 9-10 (Secondary Board)', 'Grade 11-12 (Senior Secondary)'].map(g => (
-              <button
-                type="button"
-                key={g}
-                className={`topic-pill ${grade === g.split(' ')[0] + ' ' + g.split(' ')[1] ? 'active' : ''}`}
-                style={{ justifyContent: 'center', padding: '0.65rem 1rem', width: '100%' }}
-                onClick={() => setGrade(g.split(' ')[0] + ' ' + g.split(' ')[1])}
-              >
-                {g}
-              </button>
-            ))}
+            {['Grade 6-8 (Foundational)', 'Grade 9-10 (Secondary Board)', 'Grade 11-12 (Senior Secondary)'].map(g => {
+              const selected = grade === g.split(' ')[0] + ' ' + g.split(' ')[1];
+              return (
+                <button
+                  type="button"
+                  key={g}
+                  className={`topic-pill ${selected ? 'active' : ''}`}
+                  style={{ justifyContent: 'center', padding: '0.65rem 1rem', width: '100%' }}
+                  onClick={() => setGrade(g.split(' ')[0] + ' ' + g.split(' ')[1])}
+                  aria-pressed={selected}
+                >
+                  {g}
+                </button>
+              );
+            })}
           </div>
 
           <div style={{ marginTop: '0.85rem' }}>
             <span className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Curriculum Board Standard:</span>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {['State Board (Vernacular)', 'CBSE / NCERT (National)', 'ICSE / International'].map(b => (
-                <button
-                  type="button"
-                  key={b}
-                  className={`topic-pill ${board === b.split(' ')[0] + ' ' + b.split(' ')[1] ? 'active' : ''}`}
-                  onClick={() => setBoard(b.split(' ')[0] + ' ' + b.split(' ')[1])}
-                >
-                  {b}
-                </button>
-              ))}
+              {['State Board (Vernacular)', 'CBSE / NCERT (National)', 'ICSE / International'].map(b => {
+                const selected = board === b.split(' ')[0] + ' ' + b.split(' ')[1];
+                return (
+                  <button
+                    type="button"
+                    key={b}
+                    className={`topic-pill ${selected ? 'active' : ''}`}
+                    onClick={() => setBoard(b.split(' ')[0] + ' ' + b.split(' ')[1])}
+                    aria-pressed={selected}
+                  >
+                    {b}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -103,6 +111,7 @@ export function CreateStudyPlan({ onPlanCreated, onNavigate, currentLanguage }) 
                 className={`topic-pill ${lang === l.code ? 'active' : ''}`}
                 style={{ justifyContent: 'flex-start', padding: '0.65rem 0.85rem', width: '100%' }}
                 onClick={() => setLang(l.code)}
+                aria-pressed={lang === l.code}
               >
                 <span>{l.flag}</span>
                 <span>{l.name}</span>
@@ -118,8 +127,15 @@ export function CreateStudyPlan({ onPlanCreated, onNavigate, currentLanguage }) 
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
-              <span className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Core Focus Subject:</span>
-              <select className="select-custom" value={subject} onChange={(e) => setSubject(e.target.value)} style={{ width: '100%' }}>
+              <label htmlFor="core-subject-select" className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Core Focus Subject:</label>
+              <select 
+                id="core-subject-select"
+                aria-label="Core Focus Subject"
+                className="select-custom" 
+                value={subject} 
+                onChange={(e) => setSubject(e.target.value)} 
+                style={{ width: '100%' }}
+              >
                 <option value="Physics">Physics (Optics, Forces & Motion)</option>
                 <option value="Biology">Biology (Photosynthesis, Cells & Respiration)</option>
                 <option value="Mathematics">Mathematics (Fractions, Proportions & Ratios)</option>
@@ -127,8 +143,15 @@ export function CreateStudyPlan({ onPlanCreated, onNavigate, currentLanguage }) 
             </div>
 
             <div>
-              <span className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Daily Target Study Time:</span>
-              <select className="select-custom" value={dailyMinutes} onChange={(e) => setDailyMinutes(Number(e.target.value))} style={{ width: '100%' }}>
+              <label htmlFor="daily-time-select" className="control-label" style={{ display: 'block', marginBottom: '0.35rem' }}>Daily Target Study Time:</label>
+              <select 
+                id="daily-time-select"
+                aria-label="Daily Target Study Time"
+                className="select-custom" 
+                value={dailyMinutes} 
+                onChange={(e) => setDailyMinutes(Number(e.target.value))} 
+                style={{ width: '100%' }}
+              >
                 <option value="15">15 Minutes / Day (Micro-Learning)</option>
                 <option value="30">30 Minutes / Day (Recommended Balanced)</option>
                 <option value="60">60 Minutes / Day (Intensive Mastery)</option>

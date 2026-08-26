@@ -1039,3 +1039,52 @@ body.dyslexia-friendly .hint-chip {
   }
 }
 
+/* ==========================================================================
+   Accessibility: Dyslexia Friendly Mode & Rural Low-Bandwidth Mode
+   ========================================================================== */
+
+body.dyslexia-friendly,
+body.dyslexia-mode {
+  --font-body: 'Comic Sans MS', 'OpenDyslexic', 'Trebuchet MS', sans-serif !important;
+  --font-heading: 'Comic Sans MS', 'OpenDyslexic', 'Trebuchet MS', sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.15em !important;
+  line-height: 1.8 !important;
+}
+
+body.dyslexia-friendly p,
+body.dyslexia-friendly span,
+body.dyslexia-friendly h1,
+body.dyslexia-friendly h2,
+body.dyslexia-friendly h3,
+body.dyslexia-friendly h4,
+body.dyslexia-friendly button,
+body.dyslexia-friendly input,
+body.dyslexia-friendly textarea {
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.75 !important;
+}
+
+/* Rural Low-Bandwidth 2G Mode */
+body.low-bandwidth-mode .ambient-bg,
+body.low-bandwidth-mode .ambient-orb {
+  display: none !important;
+}
+
+body.low-bandwidth-mode * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.low-bandwidth-mode .glass-card {
+  background: var(--bg-secondary) !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+

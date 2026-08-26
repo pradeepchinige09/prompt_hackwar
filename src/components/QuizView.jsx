@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Sparkles, ArrowRight, CheckCircle2, XCircle, RotateCcw, Award, 
-  Play, HelpCircle, Zap, AlertCircle, TrendingUp, ShieldCheck 
+  Sparkles, CheckCircle2, XCircle, RotateCcw, Zap, AlertCircle 
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { CURRICULUM_TOPICS } from '../data/curriculumData';
@@ -291,6 +290,8 @@ export function QuizView({ onNavigate, currentLanguage, initialTopicId, onTopicS
                   style={btnStyle}
                   onClick={() => handleSelectOption(opt)}
                   disabled={selectedOption !== null}
+                  aria-pressed={selectedOption === opt}
+                  aria-label={`Option ${String.fromCharCode(65 + idx)}: ${opt.text}`}
                 >
                   <span><strong>{String.fromCharCode(65 + idx)}.</strong> {opt.text}</span>
                   {selectedOption !== null && opt.isCorrect && <CheckCircle2 size={18} color="var(--accent-emerald)" />}

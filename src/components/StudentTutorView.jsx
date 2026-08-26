@@ -18,6 +18,23 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
   const [simParams, setSimParams] = useState((externalTopic || CURRICULUM_TOPICS[0]).simulationParams);
 
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const notificationTimeoutRef = useRef(null);
+
+  // Clean up on component unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch { /* ignore */ }
+      }
+      if (notificationTimeoutRef.current) {
+        clearTimeout(notificationTimeoutRef.current);
+      }
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   // Sync external topic when navigated from Roadmap or Quiz
   useEffect(() => {
@@ -148,17 +165,22 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
     const SpeechRecognition = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
     if (!SpeechRecognition) {
       setVoiceNotification("Speech recognition is not supported in this browser environment. Please type your query below.");
-      setTimeout(() => setVoiceNotification(null), 4000);
+      if (notificationTimeoutRef.current) clearTimeout(notificationTimeoutRef.current);
+      notificationTimeoutRef.current = setTimeout(() => setVoiceNotification(null), 4000);
       return;
     }
 
     if (isListening) {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch { /* ignore */ }
+      }
       setIsListening(false);
       return;
     }
 
     try {
       const recognition = new SpeechRecognition();
+      recognitionRef.current = recognition;
       recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'te' ? 'te-IN' : currentLanguage === 'ta' ? 'ta-IN' : currentLanguage === 'mr' ? 'mr-IN' : 'en-IN';
       recognition.continuous = false;
       recognition.interimResults = false;
@@ -167,15 +189,20 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
         setIsListening(true);
         setVoiceNotification(null);
       };
-      recognition.onend = () => setIsListening(false);
+      recognition.onend = () => {
+        setIsListening(false);
+        recognitionRef.current = null;
+      };
       recognition.onerror = (event) => {
         setIsListening(false);
+        recognitionRef.current = null;
         if (event && event.error === 'not-allowed') {
           setVoiceNotification("Microphone access was denied. You can continue typing below.");
         } else {
           setVoiceNotification("Microphone input stopped. You can type below.");
         }
-        setTimeout(() => setVoiceNotification(null), 4000);
+        if (notificationTimeoutRef.current) clearTimeout(notificationTimeoutRef.current);
+        notificationTimeoutRef.current = setTimeout(() => setVoiceNotification(null), 4000);
       };
 
       recognition.onresult = (event) => {
@@ -188,15 +215,17 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
     } catch (e) {
       console.warn("Speech recognition notice:", e.message);
       setIsListening(false);
+      recognitionRef.current = null;
       setVoiceNotification("Voice input is currently unavailable. Please type your question.");
-      setTimeout(() => setVoiceNotification(null), 4000);
+      if (notificationTimeoutRef.current) clearTimeout(notificationTimeoutRef.current);
+      notificationTimeoutRef.current = setTimeout(() => setVoiceNotification(null), 4000);
     }
   };
 
   return (
     <div className="student-tutor-container">
       {/* Quick Topic Switcher Bar */}
-      <div className="topic-quick-pills" id="topic-selector-pills">
+      <div className="topic-quick-pills" id="topic-selector-pills" role="tablist" aria-label="Curriculum Topics">
         {CURRICULUM_TOPICS.map(topic => (
           <button
             key={topic.id}
@@ -205,6 +234,10 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
               setSelectedTopic(topic);
               if (onTopicChange) onTopicChange(topic);
             }}
+            aria-pressed={selectedTopic.id === topic.id}
+            role="tab"
+            aria-selected={selectedTopic.id === topic.id}
+            aria-label={`${topic.title[currentLanguage] || topic.title.en} (${topic.grade})`}
           >
             <span>{topic.subject === 'Physics' ? '⚡' : topic.subject === 'Biology' ? '🌿' : '📐'}</span>
             <span>{topic.title[currentLanguage] || topic.title.en}</span>
@@ -306,6 +339,7 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
               className={`icon-btn ${isListening ? 'active' : ''}`}
               onClick={toggleSpeechRecognition}
               title={isListening ? "Listening... click to stop" : "Speak question in Vernacular"}
+              aria-label={isListening ? "Stop voice listening" : "Speak question using voice"}
               id="mic-input-btn"
             >
               {isListening ? <MicOff size={18} /> : <Mic size={18} />}
@@ -315,6 +349,7 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
               type="text"
               className="chat-input"
               placeholder={`Ask anything about ${selectedTopic.title[currentLanguage] || selectedTopic.title.en} (voice or text)...`}
+              aria-label={`Ask anything about ${selectedTopic.title[currentLanguage] || selectedTopic.title.en}`}
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
               disabled={isGenerating}
@@ -325,6 +360,7 @@ export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, 
               type="submit"
               className="send-btn"
               disabled={isGenerating || !inputVal.trim()}
+              aria-label="Send message to Socratic Tutor"
               id="send-message-btn"
             >
               <Send size={18} />

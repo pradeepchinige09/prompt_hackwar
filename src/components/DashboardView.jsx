@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Sparkles, ArrowRight, Flame, Award, BookOpen, Clock, Target, 
-  CheckCircle2, Play, Sliders, Zap, Compass, AlertCircle, BarChart2, Shield 
+  ArrowRight, Flame, Award, Target, Zap, AlertCircle, BarChart2 
 } from 'lucide-react';
 import { CURRICULUM_TOPICS } from '../data/curriculumData';
 import { learningEngine } from '../services/learningEngine';
@@ -229,6 +228,16 @@ export function DashboardView({ studyPlan, onNavigate, onSelectTopic, currentLan
             return (
               <div 
                 key={t.id} 
+                role="button"
+                tabIndex={0}
+                aria-label={`Practice ${t.name}, current mastery ${data.mastery}%`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (matchedCurriculum && onSelectTopic) onSelectTopic(matchedCurriculum);
+                    onNavigate('tutor');
+                  }
+                }}
                 style={{ 
                   background: 'var(--bg-secondary)', 
                   padding: '1rem', 
@@ -326,6 +335,15 @@ export function DashboardView({ studyPlan, onNavigate, onSelectTopic, currentLan
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
         <div 
           className="glass-card" 
+          role="button"
+          tabIndex={0}
+          aria-label="AI Learning Roadmap Visual Milestone Tree"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onNavigate('roadmap');
+            }
+          }}
           style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
           onClick={() => onNavigate('roadmap')}
         >
@@ -348,6 +366,15 @@ export function DashboardView({ studyPlan, onNavigate, onSelectTopic, currentLan
 
         <div 
           className="glass-card" 
+          role="button"
+          tabIndex={0}
+          aria-label="Concept Knowledge Quiz Self-Assessment"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onNavigate('quiz');
+            }
+          }}
           style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
           onClick={() => onNavigate('quiz')}
         >
@@ -370,6 +397,15 @@ export function DashboardView({ studyPlan, onNavigate, onSelectTopic, currentLan
 
         <div 
           className="glass-card" 
+          role="button"
+          tabIndex={0}
+          aria-label="AI Socratic Tutor with Interactive Canvas"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onNavigate('tutor');
+            }
+          }}
           style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
           onClick={() => onNavigate('tutor')}
         >

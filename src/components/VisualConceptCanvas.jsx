@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, RotateCcw, Zap, Sparkles, Layers, Sliders, Play } from 'lucide-react';
+import { Eye, Sparkles, Layers, Play } from 'lucide-react';
 
 export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
   const [angle, setAngle] = useState(currentParams?.incidenceAngle || 45);
@@ -127,6 +127,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                     }}
                     className="slider-custom"
                     id="prism-angle-slider"
+                    aria-label="Angle of Incidence in degrees"
                   />
                   <span className="control-value">{angle}°</span>
                 </div>
@@ -142,6 +143,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                     }}
                     className="select-custom"
                     style={{ flex: 1, maxWidth: 220 }}
+                    aria-label="Medium Refractive Index"
                   >
                     <option value="1.33">Water (n = 1.33)</option>
                     <option value="1.52">Crown Glass (n = 1.52)</option>
@@ -170,6 +172,8 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                           setSurface(s.id);
                           setBallPosition(120);
                         }}
+                        aria-pressed={surface === s.id}
+                        aria-label={`Select surface material: ${s.name}`}
                       >
                         {s.name}
                       </button>
@@ -183,6 +187,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                     onClick={handleRollBall}
                     disabled={isRolling}
                     style={{ padding: '0.4rem 1rem', fontSize: '0.82rem' }}
+                    aria-label="Roll Cricket Ball on surface"
                   >
                     <Play size={14} /> {isRolling ? 'Rolling...' : 'Roll Cricket Ball'}
                   </button>
@@ -204,6 +209,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                     value={sunlight} 
                     onChange={(e) => setSunlight(Number(e.target.value))}
                     className="slider-custom"
+                    aria-label="Sunlight Intensity percentage"
                   />
                   <span className="control-value">{sunlight}%</span>
                 </div>
@@ -213,6 +219,8 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                   <button 
                     className={`nav-tab-btn ${stomataOpen ? 'active' : ''}`}
                     onClick={() => setStomataOpen(!stomataOpen)}
+                    aria-pressed={stomataOpen}
+                    aria-label={stomataOpen ? "Close Stomata Micro-Pores" : "Open Stomata Micro-Pores"}
                   >
                     {stomataOpen ? '☀️ Open (Gas Exchange Active)' : '🌙 Closed (Night Mode)'}
                   </button>
@@ -234,6 +242,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                     value={numRotis} 
                     onChange={(e) => setNumRotis(Number(e.target.value))}
                     className="slider-custom"
+                    aria-label="Number of Hot Rotis to share"
                   />
                   <span className="control-value">{numRotis} Rotis</span>
                 </div>
@@ -247,6 +256,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
                     value={numFriends} 
                     onChange={(e) => setNumFriends(Number(e.target.value))}
                     className="slider-custom"
+                    aria-label="Number of Friends sharing rotis"
                   />
                   <span className="control-value">{numFriends} Friends</span>
                 </div>
@@ -298,7 +308,7 @@ function PrismSVG({ angle, refractiveIndex }) {
   ];
 
   return (
-    <svg viewBox="0 0 420 280" width="100%" height="260" style={{ overflow: 'visible' }}>
+    <svg viewBox="0 0 420 280" width="100%" height="260" style={{ overflow: 'visible' }} role="img" aria-label="Equilateral Glass Prism Light Dispersion Simulation">
       <defs>
         <linearGradient id="whiteBeam" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
@@ -379,7 +389,7 @@ function FrictionSVG({ surface, ballX = 120, isRolling = false }) {
   const current = frictionMap[surface] || frictionMap.grass;
 
   return (
-    <svg viewBox="0 0 420 260" width="100%" height="240">
+    <svg viewBox="0 0 420 260" width="100%" height="240" role="img" aria-label="Microscopic Surface Friction and Ball Deceleration Simulation">
       <defs>
         <linearGradient id="ballGrad" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#ef4444" />
@@ -427,7 +437,7 @@ function PhotosynthesisSVG({ stomataOpen, sunlight = 80 }) {
   const sunColor = sunlight > 40 ? '#f59e0b' : '#64748b';
 
   return (
-    <svg viewBox="0 0 420 260" width="100%" height="240">
+    <svg viewBox="0 0 420 260" width="100%" height="240" role="img" aria-label="Photosynthesis Leaf Stomata Gas Exchange Simulation">
       {/* Sun */}
       <circle cx="60" cy="50" r="26" fill={sunColor} filter={sunlight > 40 ? "drop-shadow(0 0 15px #f59e0b)" : "none"} />
       <line x1="60" y1="15" x2="60" y2="5" stroke={sunColor} strokeWidth="3" />
@@ -475,7 +485,7 @@ function FractionsSVG({ totalItems = 3, totalPeople = 4 }) {
   const friends = Array.from({ length: safePeople });
 
   return (
-    <svg viewBox="0 0 420 240" width="100%" height="220">
+    <svg viewBox="0 0 420 240" width="100%" height="220" role="img" aria-label="Fractions and Food Sharing Visual Math Simulation">
       <defs>
         <linearGradient id="rotiGrad" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#d97706" />

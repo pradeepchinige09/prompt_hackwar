@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, ArrowRight, CheckCircle2, Clock, Lock, Play, Award, Compass, BookOpen } from 'lucide-react';
+import { Compass, Play } from 'lucide-react';
 import { CURRICULUM_TOPICS } from '../data/curriculumData';
 
 export function AIRoadmapView({ onNavigate, onSelectTopic, currentLanguage }) {

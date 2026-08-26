@@ -14,7 +14,7 @@ export class AgentOrchestrator {
     this.currentLanguage = 'en';
     this.socraticStep = 0;
     this.subagentTrace = [];
-    this.apiKey = localStorage.getItem('GEMINI_API_KEY') || '';
+    this.apiKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('GEMINI_API_KEY') || '') : '';
   }
 
   setTopic(topicId) {

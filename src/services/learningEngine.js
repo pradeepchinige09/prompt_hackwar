@@ -143,15 +143,7 @@ export class AdaptiveLearningEngine {
   }
 
   loadState() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch {
-      // ignore
-    }
-
-    // Default state for a fresh student
-    return {
+    const defaultState = {
       xp: 150,
       streakDays: 5,
       completedQuizzesCount: 1,
@@ -199,6 +191,29 @@ export class AdaptiveLearningEngine {
       unlockedBadges: ['first_step'],
       awardedActionIds: {} // for de-duplication
     };
+
+    try {
+      const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            ...defaultState,
+            ...parsed,
+            topicAnalytics: {
+              ...defaultState.topicAnalytics,
+              ...(parsed.topicAnalytics || {})
+            },
+            unlockedBadges: Array.isArray(parsed.unlockedBadges) ? parsed.unlockedBadges : defaultState.unlockedBadges,
+            awardedActionIds: (parsed.awardedActionIds && typeof parsed.awardedActionIds === 'object') ? parsed.awardedActionIds : {}
+          };
+        }
+      }
+    } catch {
+      // ignore
+    }
+
+    return defaultState;
   }
 
   saveState() {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Cpu, GitBranch, Terminal, ShieldCheck, Zap, Key, Check, BarChart2, Target, Brain, Sparkles, ArrowRight } from 'lucide-react';
+import { X, Cpu, GitBranch, Zap, Key, Check, Brain } from 'lucide-react';
 import { agentOrchestrator } from '../services/agentOrchestrator';
 
 export function AgentTraceModal({ isOpen, onClose }) {
@@ -25,7 +25,15 @@ export function AgentTraceModal({ isOpen, onClose }) {
 
   return (
     <div className="trace-modal-overlay" onClick={onClose}>
-      <div className="trace-modal-card" onClick={(e) => e.stopPropagation()} id="agent-trace-modal" style={{ maxWidth: 760 }}>
+      <div 
+        className="trace-modal-card" 
+        onClick={(e) => e.stopPropagation()} 
+        id="agent-trace-modal" 
+        style={{ maxWidth: 760 }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="trace-modal-title"
+      >
         {/* Header */}
         <div className="trace-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -33,14 +41,14 @@ export function AgentTraceModal({ isOpen, onClose }) {
               <Cpu size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 800 }}>Google Antigravity Glass-Box Agent Inspector</h3>
+              <h3 id="trace-modal-title" style={{ fontSize: '1.1rem', fontWeight: 800 }}>Google Antigravity Glass-Box Agent Inspector</h3>
               <span style={{ fontSize: '0.75rem', color: 'var(--accent-saffron-light)' }}>
                 Multi-Agent Cognitive Pipeline & Live Trace
               </span>
             </div>
           </div>
 
-          <button className="icon-btn" onClick={onClose} id="close-trace-modal-btn">
+          <button className="icon-btn" onClick={onClose} id="close-trace-modal-btn" aria-label="Close Agent Inspector Modal">
             <X size={18} />
           </button>
         </div>
