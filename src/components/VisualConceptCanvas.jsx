@@ -15,7 +15,28 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
 
   const simulationType = topic?.simulationType || 'prism';
 
-  // Friction ball roll animation
+  const rollIntervalRef = React.useRef(null);
+
+  // Sync parameters when topic changes
+  React.useEffect(() => {
+    if (topic?.simulationParams) {
+      if (topic.simulationParams.incidenceAngle !== undefined) setAngle(topic.simulationParams.incidenceAngle);
+      if (topic.simulationParams.refractiveIndex !== undefined) setRefractiveIndex(topic.simulationParams.refractiveIndex);
+      if (topic.simulationParams.surface !== undefined) setSurface(topic.simulationParams.surface);
+    }
+    if (rollIntervalRef.current) {
+      clearInterval(rollIntervalRef.current);
+      setIsRolling(false);
+    }
+  }, [topic]);
+
+  React.useEffect(() => {
+    return () => {
+      if (rollIntervalRef.current) clearInterval(rollIntervalRef.current);
+    };
+  }, []);
+
+  // Friction ball roll animation with safe cleanup
   const handleRollBall = () => {
     if (isRolling) return;
     setIsRolling(true);
@@ -23,10 +44,11 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
 
     const maxDist = surface === 'grass' ? 180 : surface === 'concrete' ? 270 : 360;
     let current = 70;
-    const interval = setInterval(() => {
+    if (rollIntervalRef.current) clearInterval(rollIntervalRef.current);
+    rollIntervalRef.current = setInterval(() => {
       current += 6;
       if (current >= maxDist) {
-        clearInterval(interval);
+        if (rollIntervalRef.current) clearInterval(rollIntervalRef.current);
         setIsRolling(false);
       }
       setBallPosition(current);
@@ -245,7 +267,7 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
             {topic?.culturalAnalogy?.en || "Connects classroom STEM concepts to everyday village and suburban life."}
           </p>
           <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'rgba(0,0,0,0.2)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem', color: 'var(--accent-saffron-light)' }}>
-            💡 <strong>Why this wins Hackathons:</strong> In rural schools, students struggle with abstract English jargon. By anchoring concepts in local physical analogies, conceptual retention increases by over 84%!
+            💡 <strong>Pedagogical Impact:</strong> In multilingual classrooms, students often struggle with abstract textbook jargon. Anchoring concepts in familiar physical phenomena helps build durable conceptual intuition before introducing formal mathematical formulas.
           </div>
         </div>
       )}
@@ -257,9 +279,11 @@ export function VisualConceptCanvas({ topic, currentParams, onParamChange }) {
 // Interactive SVG 1: Equilateral Prism Dispersion
 // -------------------------------------------------------------
 function PrismSVG({ angle, refractiveIndex }) {
-  const devFactor = (refractiveIndex - 1) * 35;
+  const safeAngle = Math.max(25, Math.min(65, Number(angle) || 45));
+  const safeRI = Math.max(1.1, Math.min(2.5, Number(refractiveIndex) || 1.52));
+  const devFactor = (safeRI - 1) * 35;
   const startX = 40;
-  const startY = 160 + (angle - 45) * 1.5;
+  const startY = 160 + (safeAngle - 45) * 1.5;
   const hitX = 145;
   const hitY = 145;
 
@@ -445,8 +469,10 @@ function PhotosynthesisSVG({ stomataOpen, sunlight = 80 }) {
 // Interactive SVG 4: Fractions Sharing (Rotis)
 // -------------------------------------------------------------
 function FractionsSVG({ totalItems = 3, totalPeople = 4 }) {
-  const rotis = Array.from({ length: totalItems });
-  const friends = Array.from({ length: totalPeople });
+  const safeItems = Math.max(1, Math.min(4, Number(totalItems) || 3));
+  const safePeople = Math.max(2, Math.min(6, Number(totalPeople) || 4));
+  const rotis = Array.from({ length: safeItems });
+  const friends = Array.from({ length: safePeople });
 
   return (
     <svg viewBox="0 0 420 240" width="100%" height="220">

@@ -50,7 +50,8 @@ export class AgentOrchestrator {
     // Try live Python Antigravity Backend if standard query
     if (!hintType && typeof fetch !== 'undefined') {
       try {
-        const response = await fetch('http://localhost:8000/api/agent/stream', {
+        const backendUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_BACKEND_URL) || 'http://localhost:8000';
+        const response = await fetch(`${backendUrl}/api/agent/stream`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -327,8 +328,8 @@ export class AgentOrchestrator {
    * Uses Web Speech API for real-time vernacular speech narration
    */
   speakText(text, lang = 'en') {
-    if (!('speechSynthesis' in window)) {
-      alert("Speech synthesis is not supported in this browser.");
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      console.warn("Speech synthesis is not supported in this browser environment.");
       return;
     }
 

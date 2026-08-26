@@ -954,3 +954,88 @@ body.low-bandwidth-mode * {
   transition: none !important;
 }
 
+/* Neuro-Inclusive Dyslexia-Friendly Mode Styling */
+body.dyslexia-friendly {
+  font-family: 'Trebuchet MS', 'Comic Sans MS', sans-serif !important;
+  letter-spacing: 0.04em !important;
+  word-spacing: 0.08em !important;
+  line-height: 1.75 !important;
+}
+
+body.dyslexia-friendly h1,
+body.dyslexia-friendly h2,
+body.dyslexia-friendly h3,
+body.dyslexia-friendly h4,
+body.dyslexia-friendly p,
+body.dyslexia-friendly span,
+body.dyslexia-friendly button,
+body.dyslexia-friendly input,
+body.dyslexia-friendly textarea {
+  letter-spacing: 0.04em !important;
+  word-spacing: 0.06em !important;
+}
+
+body.dyslexia-friendly .glass-card {
+  border-width: 2px !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  background: #080d1a !important;
+}
+
+body.dyslexia-friendly .chat-bubble.tutor-bubble {
+  border-left: 4px solid var(--accent-saffron) !important;
+  font-size: 0.96rem !important;
+  line-height: 1.8 !important;
+}
+
+body.dyslexia-friendly .nav-tab-btn,
+body.dyslexia-friendly .topic-pill,
+body.dyslexia-friendly .hint-chip {
+  font-weight: 700 !important;
+  border-width: 2px !important;
+}
+
+/* Print Worksheet Optimization for Classroom Educators */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+  }
+
+  .navbar,
+  .offline-banner,
+  .icon-btn,
+  .nav-tab-btn,
+  #generate-worksheet-btn,
+  #close-trace-modal-btn,
+  .teacher-copilot-container > .glass-card:first-child,
+  .teacher-grid > .glass-card:nth-child(2),
+  .control-row,
+  .brand-icon-wrapper,
+  #print-worksheet-btn,
+  #export-worksheet-btn {
+    display: none !important;
+  }
+
+  #printable-worksheet-section {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: none !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  #printable-worksheet-section * {
+    color: #000000 !important;
+    background: transparent !important;
+  }
+
+  #printable-worksheet-section h4 {
+    font-size: 1.3rem !important;
+    border-bottom: 2px solid #000000 !important;
+    padding-bottom: 8px !important;
+  }
+}
+

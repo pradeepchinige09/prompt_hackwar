@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Wifi, WifiOff, Signal, Zap } from 'lucide-react';
+import React from 'react';
+import { Wifi, WifiOff, Signal } from 'lucide-react';
 
 export function OfflineLowBandwidthBanner({ isLowBandwidth, onToggle }) {
   return (
@@ -7,13 +7,13 @@ export function OfflineLowBandwidthBanner({ isLowBandwidth, onToggle }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
         <span className="offline-badge">
           {isLowBandwidth ? <WifiOff size={14} color="var(--accent-saffron)" /> : <Wifi size={14} color="var(--accent-emerald)" />}
-          {isLowBandwidth ? "RURAL 2G LOW-BANDWIDTH MODE ACTIVE" : "HIGH-SPEED CLOUD MODE"}
+          {isLowBandwidth ? "RURAL 2G & LOW-BANDWIDTH MODE ACTIVE" : "HIGH-SPEED STREAMING MODE"}
         </span>
 
         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
           {isLowBandwidth 
-            ? "Payload compressed to <1.5KB • Offline Local Cache Enabled for Zero-Connectivity Classrooms" 
-            : "Ultra-low latency streaming with multi-modal SVG canvas"}
+            ? "Offline Local Cache Active • Animations paused & lightweight UI active for low-connectivity schools" 
+            : "Ultra-low latency streaming with real-time SVG simulation canvas"}
         </span>
       </div>
 

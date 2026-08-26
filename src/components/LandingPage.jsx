@@ -18,7 +18,7 @@ export function LandingPage({ onNavigate, currentLanguage }) {
         </h1>
 
         <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: 740, margin: '0 auto 2.25rem', lineHeight: 1.6 }}>
-          ShikshaSetu AI bridges the 70% comprehension gap in rural and vernacular classrooms by combining guided inquiry, Indian cultural analogies, and real-time interactive mental models.
+          ShikshaSetu AI addresses the widespread comprehension barrier in rural and vernacular classrooms by combining guided inquiry, Indian cultural analogies, and real-time interactive mental models.
         </p>
 
         {/* Primary CTA Buttons */}
@@ -56,8 +56,8 @@ export function LandingPage({ onNavigate, currentLanguage }) {
       {/* Social Impact Metric Strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '2.5rem' }}>
         <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-          <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-saffron-light)', marginBottom: '0.25rem' }}>70%+</div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Comprehension Gap Bridged in Vernacular Mediums</div>
+          <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-saffron-light)', marginBottom: '0.25rem' }}>1:60 Ratio</div>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Overburdened Classrooms Supported via Socratic 1-on-1 AI</div>
         </div>
 
         <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
@@ -67,12 +67,12 @@ export function LandingPage({ onNavigate, currentLanguage }) {
 
         <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
           <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-emerald)', marginBottom: '0.25rem' }}>4 AI Agents</div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Socratic, Vernacular, Visual & Accessibility Co-Pilots</div>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Supervisor, Socratic, Cultural & Visual Generators</div>
         </div>
 
         <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-          <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-indigo-light)', marginBottom: '0.25rem' }}>&lt; 1.5 KB</div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Compressed Payloads for Rural 2G & Offline Classrooms</div>
+          <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-indigo-light)', marginBottom: '0.25rem' }}>Offline Ready</div>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Local Cache & Lightweight Mode for Low-Bandwidth Schools</div>
         </div>
       </section>
 

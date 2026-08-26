@@ -3,19 +3,28 @@ import { Send, Volume2, Mic, MicOff, Sparkles, HelpCircle, Lightbulb, Compass, A
 import confetti from 'canvas-confetti';
 import { CURRICULUM_TOPICS } from '../data/curriculumData';
 import { agentOrchestrator } from '../services/agentOrchestrator';
+import { learningEngine } from '../services/learningEngine';
 import { VisualConceptCanvas } from './VisualConceptCanvas';
 
-export function StudentTutorView({ currentLanguage, onOpenTrace }) {
-  const [selectedTopic, setSelectedTopic] = useState(CURRICULUM_TOPICS[0]);
+export function StudentTutorView({ currentLanguage, onOpenTrace, externalTopic, onTopicChange }) {
+  const [selectedTopic, setSelectedTopic] = useState(externalTopic || CURRICULUM_TOPICS[0]);
   const [messages, setMessages] = useState([]);
   const [inputVal, setInputVal] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeThought, setActiveThought] = useState(null);
   const [activeSubagent, setActiveSubagent] = useState(null);
   const [isListening, setIsListening] = useState(false);
-  const [simParams, setSimParams] = useState(CURRICULUM_TOPICS[0].simulationParams);
+  const [voiceNotification, setVoiceNotification] = useState(null);
+  const [simParams, setSimParams] = useState((externalTopic || CURRICULUM_TOPICS[0]).simulationParams);
 
   const messagesEndRef = useRef(null);
+
+  // Sync external topic when navigated from Roadmap or Quiz
+  useEffect(() => {
+    if (externalTopic && externalTopic.id !== selectedTopic.id) {
+      setSelectedTopic(externalTopic);
+    }
+  }, [externalTopic]);
 
   // Localized greetings
   const greetings = {
@@ -75,6 +84,12 @@ export function StudentTutorView({ currentLanguage, onOpenTrace }) {
     setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text: displayText }]);
     setInputVal('');
 
+    // Award interaction XP & check badges
+    learningEngine.recordTutorInteraction({
+      topicId: selectedTopic.id,
+      type: hintType === 'hint' ? 'hint' : 'inquiry'
+    });
+
     setIsGenerating(true);
     setActiveThought('Delegating to Antigravity Socratic Agent...');
 
@@ -128,11 +143,12 @@ export function StudentTutorView({ currentLanguage, onOpenTrace }) {
     }
   };
 
-  // Voice Speech Recognition
+  // Voice Speech Recognition with graceful non-blocking fallback
   const toggleSpeechRecognition = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
     if (!SpeechRecognition) {
-      alert("Speech recognition is not supported in this browser environment. Please use Google Chrome or Microsoft Edge with microphone permissions.");
+      setVoiceNotification("Speech recognition is not supported in this browser environment. Please type your query below.");
+      setTimeout(() => setVoiceNotification(null), 4000);
       return;
     }
 
@@ -147,19 +163,33 @@ export function StudentTutorView({ currentLanguage, onOpenTrace }) {
       recognition.continuous = false;
       recognition.interimResults = false;
 
-      recognition.onstart = () => setIsListening(true);
+      recognition.onstart = () => {
+        setIsListening(true);
+        setVoiceNotification(null);
+      };
       recognition.onend = () => setIsListening(false);
-      recognition.onerror = () => setIsListening(false);
+      recognition.onerror = (event) => {
+        setIsListening(false);
+        if (event && event.error === 'not-allowed') {
+          setVoiceNotification("Microphone access was denied. You can continue typing below.");
+        } else {
+          setVoiceNotification("Microphone input stopped. You can type below.");
+        }
+        setTimeout(() => setVoiceNotification(null), 4000);
+      };
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         setInputVal(transcript);
+        setVoiceNotification(null);
       };
 
       recognition.start();
     } catch (e) {
-      console.error("Speech recognition error:", e);
+      console.warn("Speech recognition notice:", e.message);
       setIsListening(false);
+      setVoiceNotification("Voice input is currently unavailable. Please type your question.");
+      setTimeout(() => setVoiceNotification(null), 4000);
     }
   };
 
@@ -171,7 +201,10 @@ export function StudentTutorView({ currentLanguage, onOpenTrace }) {
           <button
             key={topic.id}
             className={`topic-pill ${selectedTopic.id === topic.id ? 'active' : ''}`}
-            onClick={() => setSelectedTopic(topic)}
+            onClick={() => {
+              setSelectedTopic(topic);
+              if (onTopicChange) onTopicChange(topic);
+            }}
           >
             <span>{topic.subject === 'Physics' ? '⚡' : topic.subject === 'Biology' ? '🌿' : '📐'}</span>
             <span>{topic.title[currentLanguage] || topic.title.en}</span>
@@ -259,6 +292,13 @@ export function StudentTutorView({ currentLanguage, onOpenTrace }) {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Voice Notification Banner */}
+          {voiceNotification && (
+            <div style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', padding: '0.45rem 0.85rem', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', color: 'var(--accent-saffron-light)', margin: '0 1rem 0.5rem' }}>
+              ℹ️ {voiceNotification}
+            </div>
+          )}
+
           {/* Input Bar */}
           <form onSubmit={handleSend} className="chat-input-bar">
             <button
@@ -296,7 +336,13 @@ export function StudentTutorView({ currentLanguage, onOpenTrace }) {
         <VisualConceptCanvas
           topic={selectedTopic}
           currentParams={simParams}
-          onParamChange={(newParams) => setSimParams(newParams)}
+          onParamChange={(newParams) => {
+            setSimParams(newParams);
+            learningEngine.recordTutorInteraction({
+              topicId: selectedTopic.id,
+              type: 'simulation'
+            });
+          }}
         />
       </div>
     </div>

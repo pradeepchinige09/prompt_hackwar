@@ -1,16 +1,37 @@
-import React, { useState } from 'react';
-import { Sparkles, ArrowRight, CheckCircle2, XCircle, RotateCcw, Award, Play, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Sparkles, ArrowRight, CheckCircle2, XCircle, RotateCcw, Award, 
+  Play, HelpCircle, Zap, AlertCircle, TrendingUp, ShieldCheck 
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { CURRICULUM_TOPICS } from '../data/curriculumData';
+import { learningEngine } from '../services/learningEngine';
 
-export function QuizView({ onNavigate, currentLanguage }) {
-  const [selectedTopicId, setSelectedTopicId] = useState('optics-prism');
+export function QuizView({ onNavigate, currentLanguage, initialTopicId, onTopicSelect }) {
+  const [selectedTopicId, setSelectedTopicId] = useState(initialTopicId || 'optics-prism');
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [incorrectList, setIncorrectList] = useState([]);
+  const [misconceptionsList, setMisconceptionsList] = useState([]);
+  const [quizResultSummary, setQuizResultSummary] = useState(null);
 
-  // Topic Quiz Question Banks
+  // Sync when initial topic changes from Roadmap
+  useEffect(() => {
+    if (initialTopicId && initialTopicId !== selectedTopicId) {
+      setSelectedTopicId(initialTopicId);
+      setCurrentQIndex(0);
+      setSelectedOption(null);
+      setScore(0);
+      setIncorrectList([]);
+      setMisconceptionsList([]);
+      setQuizResultSummary(null);
+      setIsFinished(false);
+    }
+  }, [initialTopicId]);
+
+  // Comprehensive 4-Choice Question Banks for all 4 Topics
   const quizBanks = {
     'optics-prism': [
       {
@@ -41,7 +62,7 @@ export function QuizView({ onNavigate, currentLanguage }) {
           { text: "Straight through without any change in angle", isCorrect: false },
           { text: "Backwards into the light source", isCorrect: false }
         ],
-        explanation: "When entering a optically denser medium (higher refractive index n₂ > n₁), the velocity of light slows down, causing the ray to bend towards the normal."
+        explanation: "When entering an optically denser medium (higher refractive index n₂ > n₁), the velocity of light slows down, causing the ray to bend towards the normal."
       }
     ],
     'mechanics-friction': [
@@ -64,6 +85,16 @@ export function QuizView({ onNavigate, currentLanguage }) {
           { text: "Gravel cobblestones (μ = 0.80)", isCorrect: false }
         ],
         explanation: "Polished marble has an extremely low coefficient of friction (μ ≈ 0.05), resulting in minimal resistive force and allowing maximum gliding distance."
+      },
+      {
+        question: "Why is it harder to get a heavy stalled car moving from a dead stop than to keep it rolling once moving?",
+        options: [
+          { text: "Static friction coefficient (μs) is higher than kinetic friction (μk)", isCorrect: true },
+          { text: "Cars become physically lighter once the wheels turn", isCorrect: false },
+          { text: "Newton's laws do not apply to stationary objects", isCorrect: false },
+          { text: "Air resistance pushes backwards only when standing still", isCorrect: false }
+        ],
+        explanation: "Microscopic surface imperfections form temporary cold welds when at rest. Overcoming static friction requires more initial force than maintaining motion against kinetic friction (μk < μs)."
       }
     ],
     'biology-photosynthesis': [
@@ -76,6 +107,26 @@ export function QuizView({ onNavigate, currentLanguage }) {
           { text: "Sunlight photons having physical heavy weight", isCorrect: false }
         ],
         explanation: "Plants use solar energy to chemically bind carbon dioxide (CO₂) from the air and water (H₂O) into solid glucose and cellulose polymers. Soil supplies only trace minerals and water."
+      },
+      {
+        question: "What life-sustaining gas is released into the atmosphere as a byproduct when water molecules split in photosynthesis?",
+        options: [
+          { text: "Oxygen (O₂) gas", isCorrect: true },
+          { text: "Nitrogen (N₂) gas", isCorrect: false },
+          { text: "Carbon monoxide (CO) gas", isCorrect: false },
+          { text: "Methane (CH₄) gas", isCorrect: false }
+        ],
+        explanation: "In the thylakoid light reactions, solar photons photolyze water (2H₂O → 4H⁺ + 4e⁻ + O₂), releasing Oxygen gas as a vital byproduct that supports aerobic life on Earth."
+      },
+      {
+        question: "How do leaf stomata pores respond during an extremely dry, scorching afternoon?",
+        options: [
+          { text: "Guard cells close the pores to prevent critical water loss (transpiration)", isCorrect: true },
+          { text: "Pores burst wide open to harvest more sunlight", isCorrect: false },
+          { text: "Stomata completely dissolve under heat", isCorrect: false },
+          { text: "Leaves pump water into surrounding dry air", isCorrect: false }
+        ],
+        explanation: "Guard cells lose turgidity in response to high heat and water stress, closing stomata apertures to conserve internal moisture through transpiration control."
       }
     ],
     'math-fractions': [
@@ -88,19 +139,42 @@ export function QuizView({ onNavigate, currentLanguage }) {
           { text: "1 whole roti each", isCorrect: false }
         ],
         explanation: "When sharing 3 rotis among 4 people: Items ÷ People = 3 ÷ 4 = 3/4. Each friend gets 3 quarter-slices (75% of a roti)."
+      },
+      {
+        question: "Which of the following correctly describes the conceptual difference between 3/4 and 4/3?",
+        options: [
+          { text: "3/4 is a proper fraction (< 1 whole); 4/3 is an improper fraction (> 1 whole)", isCorrect: true },
+          { text: "Both fractions represent the exact same quantity", isCorrect: false },
+          { text: "3/4 is larger than 4/3 because 3 is written first", isCorrect: false },
+          { text: "Neither fraction can be visualized using food sharing", isCorrect: false }
+        ],
+        explanation: "3/4 = 0.75 (a part of a single unit). 4/3 = 1.33 (one whole unit plus an additional third). The numerator indicates parts taken; denominator indicates equal divisions."
+      },
+      {
+        question: "If 3 rotis are shared equally among 6 children, what is each child's portion in simplest fractional form?",
+        options: [
+          { text: "1/2 of a roti (half a roti)", isCorrect: true },
+          { text: "2/1 (two whole rotis)", isCorrect: false },
+          { text: "1/6 of a roti", isCorrect: false },
+          { text: "3/2 rotis", isCorrect: false }
+        ],
+        explanation: "3 rotis ÷ 6 children = 3/6. Dividing both the numerator and denominator by 3 gives 1/2 (half a roti each)."
       }
     ]
   };
 
   const currentQuestions = quizBanks[selectedTopicId] || quizBanks['optics-prism'];
-  const q = currentQuestions[currentQIndex];
+  const q = currentQuestions[currentQIndex] || currentQuestions[0];
 
   const handleSelectOption = (opt) => {
-    if (selectedOption !== null) return; // Prevent changing after answer
+    if (selectedOption !== null) return; // Prevent changing after answer or inflating score
     setSelectedOption(opt);
 
     if (opt.isCorrect) {
       setScore(prev => prev + 1);
+    } else {
+      setIncorrectList(prev => [...prev, q.question]);
+      setMisconceptionsList(prev => [...prev, q.explanation]);
     }
   };
 
@@ -109,6 +183,16 @@ export function QuizView({ onNavigate, currentLanguage }) {
       setCurrentQIndex(prev => prev + 1);
       setSelectedOption(null);
     } else {
+      const attemptId = `quiz_${selectedTopicId}_${Date.now()}`;
+      const summary = learningEngine.recordQuizResult({
+        attemptId,
+        topicId: selectedTopicId,
+        score,
+        totalQuestions: currentQuestions.length,
+        incorrectAnswers: incorrectList,
+        misconceptions: misconceptionsList
+      });
+      setQuizResultSummary(summary);
       setIsFinished(true);
       confetti({ particleCount: 50, spread: 80, origin: { y: 0.6 } });
     }
@@ -118,6 +202,9 @@ export function QuizView({ onNavigate, currentLanguage }) {
     setCurrentQIndex(0);
     setSelectedOption(null);
     setScore(0);
+    setIncorrectList([]);
+    setMisconceptionsList([]);
+    setQuizResultSummary(null);
     setIsFinished(false);
   };
 
@@ -141,6 +228,7 @@ export function QuizView({ onNavigate, currentLanguage }) {
               className={`topic-pill ${selectedTopicId === t.id ? 'active' : ''}`}
               onClick={() => {
                 setSelectedTopicId(t.id);
+                if (onTopicSelect) onTopicSelect(t.id);
                 handleReset();
               }}
             >
@@ -239,36 +327,95 @@ export function QuizView({ onNavigate, currentLanguage }) {
           )}
         </div>
       ) : (
-        /* Quiz Complete Results Screen */
-        <div className="glass-card" style={{ textAlign: 'center', padding: '2.5rem 1.5rem' }}>
-          <div className="brand-icon-wrapper" style={{ width: 64, height: 64, fontSize: '2rem', margin: '0 auto 1rem', background: 'rgba(16,185,129,0.2)', color: 'var(--accent-emerald)' }}>
-            🏆
+        /* Quiz Complete Results Screen with Educational Feedback & Adaptive Handoff */
+        <div className="glass-card" style={{ padding: '2.5rem 2rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+            <div className="brand-icon-wrapper" style={{ width: 64, height: 64, fontSize: '2rem', margin: '0 auto 1rem', background: 'rgba(16,185,129,0.2)', color: 'var(--accent-emerald)' }}>
+              🏆
+            </div>
+            <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+              Assessment Complete!
+            </h3>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', marginTop: '0.25rem' }}>
+              <span className={`risk-tag ${score === currentQuestions.length ? 'risk-low' : score >= 2 ? 'risk-low' : 'risk-high'}`} style={{ fontSize: '0.85rem' }}>
+                Mastery Level: {quizResultSummary?.topicTier || (score >= 2 ? 'Strong' : 'Needs Practice')} ({Math.round((score / currentQuestions.length) * 100)}%)
+              </span>
+              <span style={{ background: 'rgba(245,158,11,0.2)', color: 'var(--accent-saffron-light)', padding: '0.25rem 0.65rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Zap size={14} /> +{quizResultSummary?.earnedXP || (50 + score * 20)} XP Earned!
+              </span>
+            </div>
           </div>
-          <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>
-            Assessment Complete!
-          </h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.25rem' }}>
-            You scored <strong>{score} out of {currentQuestions.length}</strong> ({Math.round((score / currentQuestions.length) * 100)}% Mastery).
-          </p>
 
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-            <button
-              className="nav-tab-btn"
-              style={{ padding: '0.75rem 1.5rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
-              onClick={handleReset}
-            >
-              <RotateCcw size={16} /> Retake Quiz
-            </button>
+          {/* Newly Unlocked Badges Celebration */}
+          {quizResultSummary?.newlyUnlockedBadges?.length > 0 && (
+            <div style={{ background: 'rgba(245,158,11,0.15)', border: '1.5px solid rgba(245,158,11,0.4)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1.5rem', textAlign: 'center' }}>
+              <div style={{ fontSize: '1.4rem' }}>🌟</div>
+              <div style={{ fontWeight: 800, color: 'var(--accent-saffron-light)', fontSize: '0.95rem' }}>
+                New Badge Unlocked: {quizResultSummary.newlyUnlockedBadges.map(b => b.toUpperCase().replace('_', ' ')).join(', ')}!
+              </div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Your achievements have been recorded in your Learner Dashboard.
+              </div>
+            </div>
+          )}
 
-            <button
-              className="nav-tab-btn active"
-              style={{ padding: '0.85rem 2rem', fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}
-              onClick={() => onNavigate('tutor')}
-              id="quiz-master-with-tutor-btn"
-            >
-              <Sparkles size={18} />
-              <span>Step 5: Master in AI Socratic Tutor →</span>
-            </button>
+          {/* Diagnostic Breakdown: Strong vs Weak Areas */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+            <div style={{ background: 'var(--bg-secondary)', padding: '1.1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-emerald)', fontWeight: 700, marginBottom: '0.5rem', fontSize: '0.92rem' }}>
+                <CheckCircle2 size={16} /> Concept Strengths ({score}/{currentQuestions.length})
+              </div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                {score > 0 ? `Demonstrated solid conceptual intuition on ${score} core curriculum questions.` : 'Foundational concepts require review.'}
+              </p>
+            </div>
+
+            <div style={{ background: 'var(--bg-secondary)', padding: '1.1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: incorrectList.length > 0 ? 'var(--accent-rose)' : 'var(--accent-emerald)', fontWeight: 700, marginBottom: '0.5rem', fontSize: '0.92rem' }}>
+                <AlertCircle size={16} /> Targeted Focus Areas ({currentQuestions.length - score})
+              </div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                {misconceptionsList.length > 0 ? misconceptionsList[0] : 'No persistent misconceptions detected in this round.'}
+              </p>
+            </div>
+          </div>
+
+          {/* Adaptive Learning Recommendation Card */}
+          <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(245,158,11,0.1))', border: '1.5px solid var(--accent-indigo)', borderRadius: 'var(--radius-md)', padding: '1.25rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-saffron-light)', fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.4rem' }}>
+              <Zap size={14} /> ADAPTIVE RECOMMENDATION
+            </div>
+            <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.4rem' }}>
+              {score < currentQuestions.length ? 'Remedial Reinforcement: Socratic Tutor & Mental Models' : 'Concept Mastered: Explore Cultural Analogies & Next Milestone'}
+            </h4>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '1rem' }}>
+              {score < currentQuestions.length 
+                ? 'Our adaptive engine recommends opening the Socratic Tutor to experiment with the interactive sliders before retaking the assessment.'
+                : 'Excellent mastery! Advance to the next concept on your AI Roadmap or explore local Indian analogies.'}
+            </p>
+
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <button
+                className="nav-tab-btn active"
+                style={{ padding: '0.75rem 1.5rem', fontSize: '0.92rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+                onClick={() => {
+                  if (onTopicSelect) onTopicSelect(selectedTopicId);
+                  onNavigate('tutor');
+                }}
+                id="quiz-adaptive-continue-btn"
+              >
+                <Sparkles size={16} />
+                <span>Continue Learning in Socratic Tutor →</span>
+              </button>
+
+              <button
+                className="nav-tab-btn"
+                style={{ padding: '0.75rem 1.25rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
+                onClick={handleReset}
+              >
+                <RotateCcw size={15} /> Retake Quiz
+              </button>
+            </div>
           </div>
         </div>
       )}

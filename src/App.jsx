@@ -9,15 +9,28 @@ import { StudentTutorView } from './components/StudentTutorView';
 import { TeacherCoPilotView } from './components/TeacherCoPilotView';
 import { AgentTraceModal } from './components/AgentTraceModal';
 import { OfflineLowBandwidthBanner } from './components/OfflineLowBandwidthBanner';
+import { CURRICULUM_TOPICS } from './data/curriculumData';
 import { Heart, Globe, Cpu, Award } from 'lucide-react';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState('landing');
+  // Sync tab with URL hash for browser back/forward and refresh support
+  const getInitialTab = () => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      const validTabs = ['landing', 'create-plan', 'dashboard', 'roadmap', 'quiz', 'tutor', 'teacher'];
+      if (validTabs.includes(hash)) return hash;
+    }
+    return 'landing';
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [selectedTopic, setSelectedTopic] = useState(CURRICULUM_TOPICS[0]);
   const [isDyslexiaMode, setIsDyslexiaMode] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [isLowBandwidth, setIsLowBandwidth] = useState(false);
   const [isTraceOpen, setIsTraceOpen] = useState(false);
+
   const [studyPlan, setStudyPlan] = useState(() => {
     try {
       const saved = localStorage.getItem('SHIKSHA_STUDY_PLAN');
@@ -26,6 +39,28 @@ export function App() {
       return null;
     }
   });
+
+  // Navigate with URL hash history support
+  const navigateTo = (tab) => {
+    setActiveTab(tab);
+    if (typeof window !== 'undefined') {
+      window.location.hash = tab;
+    }
+  };
+
+  // Listen to browser Back and Forward navigation
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      const validTabs = ['landing', 'create-plan', 'dashboard', 'roadmap', 'quiz', 'tutor', 'teacher'];
+      if (validTabs.includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -47,6 +82,14 @@ export function App() {
     }
   }, [isLowBandwidth]);
 
+  const handlePlanCreated = (newPlan) => {
+    setStudyPlan(newPlan);
+    if (newPlan && newPlan.language) {
+      setCurrentLanguage(newPlan.language);
+    }
+    navigateTo('dashboard');
+  };
+
   return (
     <div className="app-container">
       {/* Background Ambient Glow Orbs */}
@@ -67,7 +110,7 @@ export function App() {
       {/* Main Navbar */}
       <Navbar
         activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab)}
+        onTabChange={navigateTo}
         currentLanguage={currentLanguage}
         onLanguageChange={(lang) => setCurrentLanguage(lang)}
         isDyslexiaMode={isDyslexiaMode}
@@ -81,15 +124,15 @@ export function App() {
       <main className="main-content">
         {activeTab === 'landing' && (
           <LandingPage 
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
             currentLanguage={currentLanguage}
           />
         )}
 
         {activeTab === 'create-plan' && (
           <CreateStudyPlan 
-            onPlanCreated={(plan) => setStudyPlan(plan)}
-            onNavigate={(tab) => setActiveTab(tab)}
+            onPlanCreated={handlePlanCreated}
+            onNavigate={navigateTo}
             currentLanguage={currentLanguage}
           />
         )}
@@ -97,22 +140,29 @@ export function App() {
         {activeTab === 'dashboard' && (
           <DashboardView 
             studyPlan={studyPlan}
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
+            onSelectTopic={(topic) => setSelectedTopic(topic)}
             currentLanguage={currentLanguage}
           />
         )}
 
         {activeTab === 'roadmap' && (
           <AIRoadmapView 
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
+            onSelectTopic={(topic) => setSelectedTopic(topic)}
             currentLanguage={currentLanguage}
           />
         )}
 
         {activeTab === 'quiz' && (
           <QuizView 
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
             currentLanguage={currentLanguage}
+            initialTopicId={selectedTopic?.id}
+            onTopicSelect={(topicId) => {
+              const found = CURRICULUM_TOPICS.find(t => t.id === topicId);
+              if (found) setSelectedTopic(found);
+            }}
           />
         )}
 
@@ -120,6 +170,8 @@ export function App() {
           <StudentTutorView 
             currentLanguage={currentLanguage}
             onOpenTrace={() => setIsTraceOpen(true)}
+            externalTopic={selectedTopic}
+            onTopicChange={(topic) => setSelectedTopic(topic)}
           />
         )}
 

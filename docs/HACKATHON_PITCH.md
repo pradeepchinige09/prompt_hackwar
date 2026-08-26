@@ -25,7 +25,8 @@
 1. ***Socratic Guru Agent**: Instead of giving raw answers, it guides students step-by-step using inquiry. If a student asks 'Why does a prism split light?', it asks: 'Think about walking on road vs walking in sand—does your speed change?'*
 2. ***Vernacular & Cultural Bridge Agent**: It translates and transliterates across Hindi, Hinglish, Telugu, Tamil, and Marathi, anchoring abstract formulas in everyday Indian life—like a spinning lattu, cricket ball on grass, or sharing rotis in a thali.*
 3. ***Visual Concept Canvas**: Watch right here—as the student speaks in Hindi or English, our Visual Synthesis Agent generates an interactive SVG simulation in real time. The student can slide the Angle of Incidence or surface friction to build mental models.*
-4. ***Neuro-Inclusive Suite**: With 1-click, students with dyslexia can switch to our high-legibility cognitive mode, or listen to voice narration in their mother tongue.*
+4. ***Adaptive Learning & Gamification Engine**: After every quiz, our deterministic engine calculates mastery tiers ('Mastered', 'Strong', 'Developing', 'Needs Practice'), awards de-duplicated XP and achievement badges, and highlights 'Your Next Learning Step' with targeted remedial practice.*
+5. ***Neuro-Inclusive Suite**: With 1-click, students with dyslexia can switch to our high-legibility cognitive mode, or listen to voice narration in their mother tongue.*
 
 ---
 
@@ -33,11 +34,11 @@
 *(Switch to the Educator Co-Pilot tab)*
 
 *"Education is not just about students—it's about overburdened teachers. On our Educator Dashboard, teachers can:*
-- *Generate differentiated, bilingual worksheets aligned with NEP 2020 and State Boards in 1 click.*
+- *Generate differentiated, bilingual worksheets aligned with NEP 2020 and State Boards in 1 click, with dedicated **Print Worksheet** and clean **.txt Export** features for offline classrooms.*
 - *Use our **Misconception Diagnostic Scanner** to automatically detect whether a student has a root conceptual misunderstanding (like thinking a prism 'paints' light).*
-- *View real-time Classroom Misconception Heatmaps.*
+- *Inspect the **Glass-Box Agent Inspector** to observe both the Multi-Agent Tree and the 6-stage Adaptive Learning Pipeline in complete transparency.*
 
-*And for rural villages with spotty 2G internet? We engineered a **Low-Bandwidth Mode** that compresses payloads to under 1.5 KB with full offline local caching."*
+*And for rural villages with spotty 2G internet? We engineered a **Rural 2G Mode** that activates offline local storage caching and pauses heavy animations for low-bandwidth village schools."*
 
 ---
 
@@ -81,7 +82,7 @@
 - Classroom Heatmap: data-driven remedial interventions for rural schools.
 
 ### Slide 6: Scalability & Low-Bandwidth Engineering
-- Lightweight text payloads (<1.5 KB per turn).
+- Lightweight text streaming and reduced visual asset payload.
 - Offline-first caching for zero-connectivity village classrooms.
 - Deployable on low-cost smartphones and school tablets.
 
@@ -96,12 +97,12 @@
 
 ### Q1: "Why not just use ChatGPT or Claude with a system prompt?"
 > **Winning Answer:**
-> *"ChatGPT is a monolithic, general-purpose LLM designed for raw text generation. When students use ChatGPT, it gives direct solutions, depriving the child of the struggle needed for deep conceptual learning.*
-> *ShikshaSetu is fundamentally different: it is an **orchestrated multi-agent system**. We separate pedagogy (Socratic questioning) from cultural vernacular anchoring and real-time visual coordinate generation. Furthermore, ChatGPT cannot render dynamic interactive SVG simulations with sliders, nor does it provide rural teachers with district misconception heatmaps or offline 2G compression."*
+> *"ChatGPT is a monolithic, general-purpose LLM designed for raw text generation. When students use ChatGPT, it gives direct solutions, depriving the child of the struggle needed for deep conceptual learning.
+> ShikshaSetu is fundamentally different: it is an **orchestrated multi-agent system**. We separate pedagogy (Socratic questioning) from cultural vernacular anchoring and real-time visual coordinate generation. Furthermore, ChatGPT cannot render dynamic interactive SVG simulations with sliders, nor does it provide rural teachers with district misconception heatmaps or offline 2G compression."*
 
 ### Q2: "How will this work in villages where internet connectivity is weak or absent?"
 > **Winning Answer:**
-> *"We designed ShikshaSetu with an **Offline-First / 2G Architecture**. Our curriculum rules, vector SVG simulation templates, and cultural analogy anchors are cached in the browser's IndexedDB. When online, our API transmits compressed event streams of less than 1.5 KB—meaning it functions smoothly even on a 2G edge cellular connection."*
+> *"We designed ShikshaSetu with an **Offline-First / 2G Architecture**. Our curriculum rules, vector SVG simulation templates, and cultural analogy anchors are locally cached in the browser. When online, our API transmits lightweight event streams—meaning it functions smoothly even on a low-bandwidth connection."*
 
 ### Q3: "How do you ensure the AI doesn't hallucinate or give wrong scientific facts?"
 > **Winning Answer:**

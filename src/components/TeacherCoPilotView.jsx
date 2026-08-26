@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, FileText, CheckCircle2, AlertTriangle, Printer, Sparkles, Plus, Users, BarChart3 } from 'lucide-react';
+import { BookOpen, FileText, CheckCircle2, AlertTriangle, Printer, Download, Sparkles, Plus, Users, BarChart3 } from 'lucide-react';
 import { TEACHER_CLASSROOM_DATA, CURRICULUM_TOPICS } from '../data/curriculumData';
 
 export function TeacherCoPilotView({ currentLanguage }) {
@@ -24,6 +24,21 @@ export function TeacherCoPilotView({ currentLanguage }) {
         { q: "2. किस रंग का प्रकाश सबसे अधिक विक्षेपित (झुकता) होता है और क्यों?", type: "स्नेल का नियम और अनुप्रयोग" },
         { q: "3. दैनिक जीवन का एक प्राकृतिक उदाहरण दीजिए जहां प्रकाश का विक्षेपण दिखाई देता है।", type: "दैनिक जीवन संबंध" }
       ],
+      te: [
+        { q: "1. గాలి నుండి దట్టమైన గాజు ప్రిజంలోకి వెళ్ళినప్పుడు కాంతి వేగంలో ఎలాంటి మార్పు వస్తుంది?", type: "అవగాహన" },
+        { q: "2. ఏ వర్ణపట రంగు ఎక్కువ కోణంలో వంగిపోతుంది మరియు ఎందుకు? (స్నెల్ నియమం)", type: "స్నెల్ నియమం" },
+        { q: "3. రోజువారీ జీవితంలో కాంతి విక్షేపణం కనిపించే ఒక సహజ ఉదాహరణ చెప్పండి.", type: "నిజ జీవిత అనువర్తనం" }
+      ],
+      ta: [
+        { q: "1. காற்றிலிருந்து கண்ணாடி முப்பட்டகத்திற்குள் நுழையும் போது ஒளியின் வேகம் என்னவாகிறது?", type: "கருத்து புரிதல்" },
+        { q: "2. எந்த நிற ஒளி அதிக கோணத்தில் விலகலடைகிறது மற்றும் ஏன்?", type: "ஸ்னெல் விதி" },
+        { q: "3. அன்றாட வாழ்வில் ஒளிச்சிதறல் ஏற்படும் ஒரு இயற்கை உதாரணத்தைக் கூறுங்கள்.", type: "நடைமுறைப் பயன்பாடு" }
+      ],
+      mr: [
+        { q: "1. हवेतून काचेच्या प्रिझममध्ये जाताना प्रकाशाच्या वेगात काय बदल होतो?", type: "संकल्पनात्मक समज" },
+        { q: "2. कोणत्या रंगाचा प्रकाश सर्वात जास्त वाकतो आणि का?", type: "स्नेलचा नियम" },
+        { q: "3. दैनंदिन जीवनातील प्रकाश विखुरण्याचे एक नैसर्गिक उदाहरण द्या.", type: "व्यावहारिक उपयोग" }
+      ],
       handsOn: "Inverted Prism Recombination: Place a second identical triangular prism inverted against the first prism. Observe how the 7 colors recombine back into a single white beam."
     },
     "mechanics-friction": {
@@ -36,6 +51,21 @@ export function TeacherCoPilotView({ currentLanguage }) {
         { q: "1. न्यूटन के गति के प्रथम नियम की व्याख्या कीजिए और बताइए कि लुढ़कती क्रिकेट गेंद अपने आप क्यों रुकती है?", type: "न्यूटन का प्रथम नियम" },
         { q: "2. गीली घास के मैदान और संगमरमर के चिकने फर्श पर गेंद की गति में अंतर का क्या कारण है?", type: "घर्षण गुणांक" },
         { q: "3. दैनिक जीवन में घर्षण के दो लाभ और दो हानियां समझाइए।", type: "दैनिक जीवन संबंध" }
+      ],
+      te: [
+        { q: "1. న్యూటన్ మొదటి నియమాన్ని వివరించి, దొర్లుతున్న క్రికెట్ బంతి ఎందుకు ఆగుతుందో చెప్పండి.", type: "న్యూటన్ మొదటి నియమం" },
+        { q: "2. పాలరాతి నేల కంటే పచ్చటి గడ్డి మైదానంలో బంతి ఎందుకు త్వరగా ఆగిపోతుంది?", type: "ఘర్షణ స్వభావం" },
+        { q: "3. నిత్య జీవితంలో ఘర్షణ వల్ల కలిగే లాభాలు మరియు నష్టాలను పేర్కొనండి.", type: "నిజ జీవిత అనువర్తనం" }
+      ],
+      ta: [
+        { q: "1. நியூட்டனின் முதல் விதியை விவரித்து, உருளும் பந்து தானாக ஏன் நிற்கிறது என்பதை விளக்குங்கள்.", type: "நியூட்டனின் முதல் விதி" },
+        { q: "2. புல் வெளியை விட வழவழப்பான பளிங்குத் தரையில் பந்து ஏன் அதிக தூரம் உருளுகிறது?", type: "உராய்வுக் குணகம்" },
+        { q: "3. உராய்வினால் ஏற்படும் நன்மைகள் மற்றும் தீமைகளைக் குறிப்பிடுங்கள்.", type: "நடைமுறைப் பயன்பாடு" }
+      ],
+      mr: [
+        { q: "1. न्यूटनचा गतीविषयक पहिला नियम सांगा आणि चेंडू आपोआप का थांबतो ते स्पष्ट करा.", type: "न्यूटनचा नियम" },
+        { q: "2. गवताळ मैदानापेक्षा संगमरवरी जमिनीवर चेंडू जास्त पुढे का जातो?", type: "घर्षण गुणांक" },
+        { q: "3. घर्षणाचे दैनंदिन जीवनातील दोन फायदे आणि तोटे लिहा.", type: "दैनिक उपयोग" }
       ],
       handsOn: "Incline Ramp Test: Roll a cricket ball down a ramp onto 3 different surfaces (cardboard, grass, and smooth tile). Measure stopping distances with a tape to compare frictional coefficients."
     },
@@ -50,6 +80,21 @@ export function TeacherCoPilotView({ currentLanguage }) {
         { q: "2. पत्तियों की निचली सतह पर उपस्थित रंध्रों (Stomata) का दिन और रात में क्या कार्य होता है?", type: "पादप शारीरिकी" },
         { q: "3. विशाल बरगद के पेड़ का अधिकांश ठोस वजन मिट्टी से आता है या हवा से? कारण स्पष्ट करें।", type: "वैज्ञानिक विश्लेषण" }
       ],
+      te: [
+        { q: "1. కిరణజన్య సంయోగక్రియ యొక్క సమతుల్య రసాయన సమీకరణాన్ని రాయండి.", type: "రసాయన సమీకరణం" },
+        { q: "2. ఆకులలోని పత్రరంధ్రాలు (Stomata) పగలు మరియు రాత్రి సమయాల్లో ఎలా పనిచేస్తాయి?", type: "మొక్కల నిర్మాణం" },
+        { q: "3. భారీ మర్రిచెట్టు కలప మరియు బరువు నేల నుండి వస్తుందా లేక గాలి నుంచా?", type: "శాస్త్రీయ విశ్లేషణ" }
+      ],
+      ta: [
+        { q: "1. ஒளிச்சேர்க்கையின் சமன் செய்யப்பட்ட வேதியியல் சமன்பாட்டை எழுதுங்கள்.", type: "வேதியியல் சமன்பாடு" },
+        { q: "2. இலைத்துளைகள் (Stomata) பகல் மற்றும் இரவில் எவ்வாறு செயல்படுகின்றன?", type: "தாவர அமைப்பியல்" },
+        { q: "3. ஒரு பெரிய ஆலமரத்தின் எடை மண்ணிலிருந்து வருகிறதா அல்லது காற்றிலிருந்தா?", type: "அறிவியல் ஆய்வு" }
+      ],
+      mr: [
+        { q: "1. प्रकाशसंश्लेषण प्रक्रियेचे संतुलित रासायनिक समीकरण लिहा.", type: "रासायनिक समीकरण" },
+        { q: "2. पानांवरील पर्णरंध्रे (Stomata) दिवस व रात्री कशी कार्य करतात?", type: "वनस्पती शास्त्र" },
+        { q: "3. वटवृक्षाचे मुख्य वजन मातीतून येते की हवेतील कार्बन डायऑक्साइडमधून?", type: "वैज्ञानिक विश्लेषण" }
+      ],
       handsOn: "Iodine Starch Test: Cover half of a green leaf with black paper for 48 hours, boil in alcohol, and add iodine drops to visibly prove starch is only produced under solar light."
     },
     "math-fractions": {
@@ -63,6 +108,21 @@ export function TeacherCoPilotView({ currentLanguage }) {
         { q: "2. भोजन बांटने के उदाहरण से समझाइए कि 3/4 और 4/3 में क्या अंतर है?", type: "अंश और हर का अंतर" },
         { q: "3. यदि समूह में 2 दोस्त और आ जाएं (कुल 6), तो प्रत्येक का हिस्सा कैसे बदलेगा?", type: "समानुपातिक तर्क" }
       ],
+      te: [
+        { q: "1. 4 మంది స్నేహితులు 3 రొట్టెలను సమానంగా పంచుకుంటే, ఒక్కొక్కరికి ఎంత భాగం వస్తుంది?", type: "భిన్నాల భావన" },
+        { q: "2. భోజనం పంచుకునే ఉదాహరణతో 3/4 మరియు 4/3 మధ్య తేడాను వివరించండి.", type: "తులనాత్మక అవగాహన" },
+        { q: "3. మరో ఇద్దరు స్నేహితులు చేరితే (మొత్తం 6), ఒక్కొక్కరి వాటా ఎలా మారుతుంది?", type: "సమానుపాత తర్కం" }
+      ],
+      ta: [
+        { q: "1. 4 நண்பர்கள் 3 ரொட்டிகளை சமமாகப் பகிர்ந்து கொண்டால், ஒருவருக்கு எவ்வளவு ரொட்டி கிடைக்கும்?", type: "பின்னக் கருத்து" },
+        { q: "2. உணவு பகிர்வு மூலம் 3/4 மற்றும் 4/3 இடையேயான வேறுபாட்டை விளக்குங்கள்.", type: "ஒப்பீட்டு விளக்கம்" },
+        { q: "3. மேலும் இருவர் சேர்ந்தால் (மொத்தம் 6 பேர்), பங்கு எவ்வாறு மாறும்?", type: "விகித சம சிந்தனை" }
+      ],
+      mr: [
+        { q: "1. ४ मित्रांनी ३ चपात्या समान वाटून घेतल्यास प्रत्येकाला किती भाग मिळेल?", type: "अपूर्णांकांची संकल्पना" },
+        { q: "2. ३/४ आणि ४/३ मधील फरक सोप्या उदाहरणाने स्पष्ट करा.", type: "संकल्पनात्मक फरक" },
+        { q: "3. आणखी २ मित्र आल्यास (एकूण ६), प्रत्येकाचा हिस्सा कसा बदलेल?", type: "प्रमाणबद्ध तर्क" }
+      ],
       handsOn: "Paper Chapati Folding: Cut out 3 circular paper rotis. Fold each into 4 equal quadrants and distribute 3 quadrants to each of the 4 group members to visualize 3/4."
     }
   };
@@ -72,17 +132,71 @@ export function TeacherCoPilotView({ currentLanguage }) {
     setIsGenerating(true);
     setTimeout(() => {
       const bank = topicQuestionBanks[selectedTopic.id] || topicQuestionBanks["optics-prism"];
-      const questions = (worksheetLang === 'hi' || worksheetLang === 'hinglish') ? bank.hi : bank.en;
+      const questions = bank[worksheetLang] || (worksheetLang === 'hinglish' ? bank.hi : null) || bank.en;
 
       setWorksheet({
-        title: `${selectedTopic.title[worksheetLang] || selectedTopic.title.en} — Differentiated Worksheet`,
+        title: `${selectedTopic.title[worksheetLang] || selectedTopic.title.en} — Differentiated Classroom Worksheet`,
         grade: gradeLevel,
         board: "NCF / NEP 2020 & State Board Aligned",
+        language: worksheetLang,
+        difficulty: gradeLevel.includes('6-7') ? 'Foundational' : gradeLevel.includes('8-9') ? 'Intermediate' : 'Board Preparatory',
         questions: questions,
         handsOnActivity: bank.handsOn
       });
       setIsGenerating(false);
     }, 500);
+  };
+
+  // Export formatted worksheet as downloadable text file
+  const handleExportWorksheet = () => {
+    if (!worksheet) return;
+
+    const content = `================================================================================
+SHIKSHASETU AI (शिक्षासेतु) — NEP 2020 BILINGUAL CLASSROOM WORKSHEET
+================================================================================
+
+Student Name: ___________________________________  Roll No: __________  Date: ____________
+Target Grade: ${worksheet.grade}  |  Curriculum Board: ${worksheet.board}
+Medium / Language: ${worksheet.language.toUpperCase()}  |  Difficulty: ${worksheet.difficulty}
+Subject & Concept: ${worksheet.title}
+
+--------------------------------------------------------------------------------
+PART A: CONCEPTUAL QUESTIONS & INQUIRY (अवधारणात्मक प्रश्न)
+--------------------------------------------------------------------------------
+${worksheet.questions.map((q, i) => `
+[Q${i + 1}] ${q.q}
+     Cognitive Competency: ${q.type}
+
+     Student Response (विद्यार्थी उत्तर):
+     ___________________________________________________________________________
+     ___________________________________________________________________________
+     ___________________________________________________________________________
+`).join('\n')}
+
+--------------------------------------------------------------------------------
+PART B: RECOMMENDED LOW-COST CLASSROOM EXPERIMENT (कक्षा प्रयोग)
+--------------------------------------------------------------------------------
+* Hands-On Activity: ${worksheet.handsOnActivity}
+* Materials: Zero-cost or common household objects available in rural schools.
+
+--------------------------------------------------------------------------------
+PART C: TEACHER MARKING & DIAGNOSTIC RUBRIC (शिक्षक मूल्यांकन)
+--------------------------------------------------------------------------------
+* Focus on intuitive cause-and-effect reasoning rather than rote textbook definitions.
+* Award full credit for regional/cultural physical analogies explaining the mechanism.
+================================================================================
+Generated via ShikshaSetu AI Educator Co-Pilot • UN SDG 4 Quality Education
+`;
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `ShikshaSetu_Worksheet_${worksheet.grade.replace(/\s+/g, '_')}_${worksheet.language}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Evaluate student answer for misconceptions
@@ -212,32 +326,55 @@ export function TeacherCoPilotView({ currentLanguage }) {
 
             {/* Generated Worksheet Preview */}
             {worksheet && (
-              <div style={{ marginTop: '1rem', background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <h4 style={{ fontSize: '0.95rem', color: 'var(--accent-saffron-light)' }}>{worksheet.title}</h4>
-                  <button 
-                    className="icon-btn" 
-                    onClick={() => window.print()} 
-                    title="Print Worksheet for Classroom"
-                  >
-                    <Printer size={16} />
-                  </button>
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
-                  {worksheet.grade} • {worksheet.board}
+              <div style={{ marginTop: '1rem', background: 'var(--bg-secondary)', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }} id="printable-worksheet-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                  <div>
+                    <h4 style={{ fontSize: '1rem', color: 'var(--accent-saffron-light)', fontWeight: 700 }}>{worksheet.title}</h4>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                      {worksheet.grade} • {worksheet.board} • Medium: {worksheet.language.toUpperCase()} • Level: {worksheet.difficulty}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button 
+                      className="nav-tab-btn" 
+                      onClick={() => window.print()} 
+                      style={{ padding: '0.45rem 0.85rem', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+                      title="Print Worksheet for Classroom"
+                      id="print-worksheet-btn"
+                    >
+                      <Printer size={14} /> Print Worksheet
+                    </button>
+                    <button 
+                      className="nav-tab-btn active" 
+                      onClick={handleExportWorksheet} 
+                      style={{ padding: '0.45rem 0.85rem', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+                      title="Download as clean text format"
+                      id="export-worksheet-btn"
+                    >
+                      <Download size={14} /> Export (.txt)
+                    </button>
+                  </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                {/* Printable Student Information Line */}
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.6rem 0.8rem', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.85rem', border: '1px dashed var(--border-subtle)' }}>
+                  <strong>Student Name:</strong> ____________________________  &nbsp;|&nbsp; <strong>Roll No:</strong> _______  &nbsp;|&nbsp; <strong>Date:</strong> _________
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {worksheet.questions.map((q, idx) => (
-                    <div key={idx} style={{ fontSize: '0.85rem', background: 'rgba(255,255,255,0.03)', padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}>
-                      <strong>{q.q}</strong>
-                      <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--accent-indigo-light)', marginTop: '0.2rem' }}>
-                        Skill: {q.type}
+                    <div key={idx} style={{ fontSize: '0.85rem', background: 'rgba(255,255,255,0.02)', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{q.q}</div>
+                      <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--accent-indigo-light)', marginTop: '0.25rem' }}>
+                        Competency: {q.type}
                       </span>
+                      <div style={{ marginTop: '0.5rem', height: '2rem', borderBottom: '1px dotted var(--border-subtle)', color: 'var(--text-muted)', fontSize: '0.72rem', display: 'flex', alignItems: 'flex-end' }}>
+                        Student Answer space: _______________________________________________________________
+                      </div>
                     </div>
                   ))}
 
-                  <div style={{ fontSize: '0.8rem', borderLeft: '2px solid var(--accent-emerald)', paddingLeft: '0.6rem', color: 'var(--text-secondary)', marginTop: '0.4rem' }}>
+                  <div style={{ fontSize: '0.8rem', borderLeft: '3px solid var(--accent-emerald)', paddingLeft: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.4rem', background: 'rgba(16,185,129,0.05)', padding: '0.5rem' }}>
                     🔬 <strong>Recommended Low-Cost Classroom Demo:</strong> {worksheet.handsOnActivity}
                   </div>
                 </div>
@@ -331,45 +468,47 @@ export function TeacherCoPilotView({ currentLanguage }) {
           <span className="risk-tag risk-medium">Live District Aggregation</span>
         </div>
 
-        <table className="heatmap-table" id="misconception-heatmap-table">
-          <thead>
-            <tr>
-              <th>Curriculum Topic</th>
-              <th>Class Mastery</th>
-              <th>Sample Size</th>
-              <th>Risk Level</th>
-              <th>Identified Root-Cause Misconception</th>
-              <th>Recommended Remedial</th>
-            </tr>
-          </thead>
-          <tbody>
-            {TEACHER_CLASSROOM_DATA.map((row) => (
-              <tr key={row.topicId}>
-                <td style={{ fontWeight: 600 }}>{row.topicName}</td>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <div style={{ width: 60, height: 6, background: 'var(--bg-tertiary)', borderRadius: 3, overflow: 'hidden' }}>
-                      <div style={{ width: `${row.classAverage}%`, height: '100%', background: row.classAverage > 70 ? 'var(--accent-emerald)' : row.classAverage > 60 ? 'var(--accent-saffron)' : 'var(--accent-rose)' }} />
-                    </div>
-                    <span style={{ fontSize: '0.78rem', fontWeight: 600 }}>{row.classAverage}%</span>
-                  </div>
-                </td>
-                <td style={{ color: 'var(--text-muted)' }}>{row.studentsAssessed}</td>
-                <td>
-                  <span className={`risk-tag ${row.riskLevel === 'High' ? 'risk-high' : row.riskLevel === 'Medium' ? 'risk-medium' : 'risk-low'}`}>
-                    {row.riskLevel}
-                  </span>
-                </td>
-                <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', maxWidth: 260 }}>
-                  {row.commonMisconception}
-                </td>
-                <td style={{ fontSize: '0.8rem', color: 'var(--accent-saffron-light)', maxWidth: 240 }}>
-                  {row.recommendedRemedial}
-                </td>
+        <div style={{ overflowX: 'auto', width: '100%', marginTop: '1rem' }}>
+          <table className="heatmap-table" id="misconception-heatmap-table">
+            <thead>
+              <tr>
+                <th>Curriculum Topic</th>
+                <th>Class Mastery</th>
+                <th>Sample Size</th>
+                <th>Risk Level</th>
+                <th>Identified Root-Cause Misconception</th>
+                <th>Recommended Remedial</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {TEACHER_CLASSROOM_DATA.map((row) => (
+                <tr key={row.topicId}>
+                  <td style={{ fontWeight: 600 }}>{row.topicName}</td>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <div style={{ width: 60, height: 6, background: 'var(--bg-tertiary)', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{ width: `${row.classAverage}%`, height: '100%', background: row.classAverage > 70 ? 'var(--accent-emerald)' : row.classAverage > 60 ? 'var(--accent-saffron)' : 'var(--accent-rose)' }} />
+                      </div>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 600 }}>{row.classAverage}%</span>
+                    </div>
+                  </td>
+                  <td style={{ color: 'var(--text-muted)' }}>{row.studentsAssessed}</td>
+                  <td>
+                    <span className={`risk-tag ${row.riskLevel === 'High' ? 'risk-high' : row.riskLevel === 'Medium' ? 'risk-medium' : 'risk-low'}`}>
+                      {row.riskLevel}
+                    </span>
+                  </td>
+                  <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', maxWidth: 260 }}>
+                    {row.commonMisconception}
+                  </td>
+                  <td style={{ fontSize: '0.8rem', color: 'var(--accent-saffron-light)', maxWidth: 240 }}>
+                    {row.recommendedRemedial}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
