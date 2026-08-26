@@ -150,6 +150,48 @@ shikshasetu-ai/
 
 ---
 
+## 🌐 Cloud Deployment Architecture & Live Links
+
+ShikshaSetu AI supports both single-service unified cloud hosting and decoupled microservice architectures:
+
+```text
+Browser (Student / Educator)
+     │
+     ▼
+Cloud Frontend (GitHub Pages / Render)
+     │
+     ▼ (Server-Sent Events)
+FastAPI Backend (Uvicorn / Python 3.11)
+     │
+     ▼
+Google Antigravity Multi-Agent System
+     │
+     ▼
+SSE Stream (/api/agent/stream)
+```
+
+### 1. GitHub Pages (Public Frontend)
+- **Public Frontend URL**: [https://pradeepchinige09.github.io/prompt_hackwar/](https://pradeepchinige09.github.io/prompt_hackwar/)
+- Built automatically via GitHub Actions workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
+### 2. Render / Railway / Docker (FastAPI Backend + SSE)
+- **Render Blueprint**: Configured in [`render.yaml`](render.yaml) for 1-click zero-config deployment of the Python FastAPI backend with native Server-Sent Events (SSE) streaming support.
+- **Universal Container**: Configured in [`Dockerfile`](Dockerfile) for deployment on Cloud Run, Railway, Koyeb, or Docker Hub.
+- **Procfile**: Defined for web service startup: `web: uvicorn backend.main:app --host 0.0.0.0 --port $PORT`.
+
+### 3. Production Environment Variables
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `PORT` | Cloud assigned port for FastAPI | `8000` |
+| `HOST` | Bind host for cloud container | `0.0.0.0` |
+| `CORS_ORIGINS` | Comma-separated allowed origins | `https://pradeepchinige09.github.io,http://localhost:5173` |
+| `VITE_BACKEND_URL` | Public backend URL for cross-origin frontend | `''` (same-origin fallback) |
+| `SERVE_FRONTEND` | Set to `true` if FastAPI should serve the built `dist` SPA | `false` |
+| `GEMINI_API_KEY` | *(Optional)* Cloud Gemini API key for live LLM inference | None (autonomous offline engine) |
+
+---
+
 ## ⚡ Quickstart & Running Locally
 
 ### 1. Frontend Web App
@@ -162,18 +204,15 @@ npm run dev
 ```
 Open your browser at `http://localhost:5173`.
 
-### 2. Python Antigravity Backend (Optional)
+### 2. Python Antigravity Backend
 ```bash
-# Navigate to backend directory
-cd backend
-
 # Install Python requirements
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 
 # Launch FastAPI Server
-python main.py
+python backend/main.py
 ```
-Backend API will run at `http://localhost:8000`.
+Backend API runs at `http://localhost:8000`. Swagger API docs available at `http://localhost:8000/docs`.
 
 ---
 

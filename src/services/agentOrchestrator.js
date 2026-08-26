@@ -50,7 +50,10 @@ export class AgentOrchestrator {
     // Try live Python Antigravity Backend if standard query
     if (!hintType && typeof fetch !== 'undefined') {
       try {
-        const backendUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_BACKEND_URL) || 'http://localhost:8000';
+        const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
+        const configuredBackendUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_BACKEND_URL) || '';
+        // In production, never accidentally fallback to localhost: use configured URL or same-origin window.location.origin
+        const backendUrl = configuredBackendUrl.trim() || (isDev ? 'http://localhost:8000' : (typeof window !== 'undefined' && window.location ? window.location.origin : ''));
         const response = await fetch(`${backendUrl}/api/agent/stream`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
