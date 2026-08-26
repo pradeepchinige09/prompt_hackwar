@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
+import { LandingPage } from './components/LandingPage';
+import { CreateStudyPlan } from './components/CreateStudyPlan';
+import { DashboardView } from './components/DashboardView';
+import { AIRoadmapView } from './components/AIRoadmapView';
+import { QuizView } from './components/QuizView';
 import { StudentTutorView } from './components/StudentTutorView';
 import { TeacherCoPilotView } from './components/TeacherCoPilotView';
 import { AgentTraceModal } from './components/AgentTraceModal';
@@ -7,12 +12,20 @@ import { OfflineLowBandwidthBanner } from './components/OfflineLowBandwidthBanne
 import { Heart, Globe, Cpu, Award } from 'lucide-react';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState('student');
+  const [activeTab, setActiveTab] = useState('landing');
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [isDyslexiaMode, setIsDyslexiaMode] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [isLowBandwidth, setIsLowBandwidth] = useState(false);
   const [isTraceOpen, setIsTraceOpen] = useState(false);
+  const [studyPlan, setStudyPlan] = useState(() => {
+    try {
+      const saved = localStorage.getItem('SHIKSHA_STUDY_PLAN');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -64,9 +77,46 @@ export function App() {
         onOpenTrace={() => setIsTraceOpen(true)}
       />
 
-      {/* Content Body */}
+      {/* Content Body Rendering Complete User Flow */}
       <main className="main-content">
-        {activeTab === 'student' && (
+        {activeTab === 'landing' && (
+          <LandingPage 
+            onNavigate={(tab) => setActiveTab(tab)}
+            currentLanguage={currentLanguage}
+          />
+        )}
+
+        {activeTab === 'create-plan' && (
+          <CreateStudyPlan 
+            onPlanCreated={(plan) => setStudyPlan(plan)}
+            onNavigate={(tab) => setActiveTab(tab)}
+            currentLanguage={currentLanguage}
+          />
+        )}
+
+        {activeTab === 'dashboard' && (
+          <DashboardView 
+            studyPlan={studyPlan}
+            onNavigate={(tab) => setActiveTab(tab)}
+            currentLanguage={currentLanguage}
+          />
+        )}
+
+        {activeTab === 'roadmap' && (
+          <AIRoadmapView 
+            onNavigate={(tab) => setActiveTab(tab)}
+            currentLanguage={currentLanguage}
+          />
+        )}
+
+        {activeTab === 'quiz' && (
+          <QuizView 
+            onNavigate={(tab) => setActiveTab(tab)}
+            currentLanguage={currentLanguage}
+          />
+        )}
+
+        {activeTab === 'tutor' && (
           <StudentTutorView 
             currentLanguage={currentLanguage}
             onOpenTrace={() => setIsTraceOpen(true)}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Languages, Sun, Moon, Type, Cpu, GraduationCap, Users } from 'lucide-react';
+import { Sparkles, Languages, Sun, Moon, Type, Cpu, GraduationCap, Users, Compass, LayoutDashboard, HelpCircle, Home, Award } from 'lucide-react';
 import { LANGUAGES } from '../data/curriculumData';
 
 export function Navbar({ 
@@ -17,7 +17,7 @@ export function Navbar({
     <nav className="navbar" id="app-navbar">
       <div className="nav-inner">
         {/* Brand */}
-        <div className="nav-brand" onClick={() => onTabChange('student')}>
+        <div className="nav-brand" onClick={() => onTabChange('landing')}>
           <div className="brand-icon-wrapper">
             🎓
           </div>
@@ -27,28 +27,71 @@ export function Navbar({
           </div>
         </div>
 
-        {/* Center Tabs: Learner vs Educator */}
+        {/* Center Tabs for Complete User Flow */}
         <div className="nav-tabs">
           <button 
-            className={`nav-tab-btn ${activeTab === 'student' ? 'active' : ''}`}
-            onClick={() => onTabChange('student')}
-            id="tab-student-learner"
+            className={`nav-tab-btn ${activeTab === 'landing' ? 'active' : ''}`}
+            onClick={() => onTabChange('landing')}
+            id="tab-landing-home"
+            title="Home Landing"
           >
-            <GraduationCap size={16} /> Student Learner
+            <Home size={15} /> Home
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'create-plan' ? 'active' : ''}`}
+            onClick={() => onTabChange('create-plan')}
+            id="tab-create-plan"
+            title="Study Plan Wizard"
+          >
+            Plan
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
+            onClick={() => onTabChange('dashboard')}
+            id="tab-dashboard"
+            title="Student Learner Dashboard"
+          >
+            <LayoutDashboard size={15} /> Dashboard
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'roadmap' ? 'active' : ''}`}
+            onClick={() => onTabChange('roadmap')}
+            id="tab-ai-roadmap"
+            title="Interactive Concept Tree"
+          >
+            <Compass size={15} /> Roadmap
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'quiz' ? 'active' : ''}`}
+            onClick={() => onTabChange('quiz')}
+            id="tab-quiz-assessment"
+            title="Diagnostic Quiz"
+          >
+            <Award size={15} /> Quiz
+          </button>
+          <button 
+            className={`nav-tab-btn ${activeTab === 'tutor' ? 'active' : ''}`}
+            onClick={() => onTabChange('tutor')}
+            id="tab-student-learner"
+            title="Socratic AI Tutor & Canvas"
+          >
+            <GraduationCap size={15} /> AI Tutor
           </button>
           <button 
             className={`nav-tab-btn ${activeTab === 'teacher' ? 'active' : ''}`}
             onClick={() => onTabChange('teacher')}
             id="tab-teacher-copilot"
+            title="Teacher Diagnostic Co-Pilot"
           >
-            <Users size={16} /> Educator Co-Pilot
+            <Users size={15} /> Educator
           </button>
           <button 
             className={`nav-tab-btn ${activeTab === 'trace' ? 'active' : ''}`}
             onClick={onOpenTrace}
             id="tab-agent-inspector"
+            title="Glass-Box Inspector"
           >
-            <Cpu size={16} /> Antigravity Trace
+            <Cpu size={15} /> Trace
           </button>
         </div>
 
