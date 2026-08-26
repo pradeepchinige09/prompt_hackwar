@@ -31,7 +31,8 @@ else:
         "http://localhost:4173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
-        "https://pradeepchinige09.github.io"
+        "https://pradeepchinige09.github.io",
+        "https://shikshasetu-ai-beta.vercel.app"
     ]
 
 # If running in non-strict development mode or explicitly requested, allow wildcard

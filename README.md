@@ -170,11 +170,15 @@ Google Antigravity Multi-Agent System
 SSE Stream (/api/agent/stream)
 ```
 
-### 1. GitHub Pages (Public Frontend)
+### 1. Vercel Production Frontend (Live)
+- **Live Public Frontend URL**: [https://shikshasetu-ai-beta.vercel.app/](https://shikshasetu-ai-beta.vercel.app/)
+- **Vercel Project**: `chpradeeprs9-9354/shikshasetu-ai` (connected to `main`)
+
+### 2. GitHub Pages Frontend (CDN Backup)
 - **Public Frontend URL**: [https://pradeepchinige09.github.io/prompt_hackwar/](https://pradeepchinige09.github.io/prompt_hackwar/)
 - Built automatically via GitHub Actions workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
 
-### 2. Render / Railway / Docker (FastAPI Backend + SSE)
+### 3. Render / Railway / Docker (FastAPI Backend + SSE)
 - **Render Blueprint**: Configured in [`render.yaml`](render.yaml) for 1-click zero-config deployment of the Python FastAPI backend with native Server-Sent Events (SSE) streaming support.
 - **Universal Container**: Configured in [`Dockerfile`](Dockerfile) for deployment on Cloud Run, Railway, Koyeb, or Docker Hub.
 - **Procfile**: Defined for web service startup: `web: uvicorn backend.main:app --host 0.0.0.0 --port $PORT`.
